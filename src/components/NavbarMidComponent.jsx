@@ -1,11 +1,14 @@
+// router
+import { Link } from 'react-router-dom'
+
+// clerk
+import { SignedIn, SignedOut, SignInButton, UserButton } from '@clerk/clerk-react'
+
 // assets
 import logo from '../assets/logo.png'
 
 // react-icons
 import { CiUser, CiHeart, CiShoppingCart } from "react-icons/ci";
-
-//
-import { Link } from 'react-router-dom'
 
 function NavbarMidComponent() {
     const navItems = [
@@ -28,14 +31,14 @@ function NavbarMidComponent() {
 
     return (
         <div>
-            <nav className='bg-mainBlue h-[100px]'>
-                <div className="h-full container mx-auto flex-center justify-between">
+            <nav className='bg-mainBlue h-full md:h-[100px] py-[20px]'>
+                <div className="h-full container mx-auto flex-center justify-between flex-col md:flex-row gap-5">
                     <img 
                     src={logo} 
                     alt="Electon" 
                     />
                 
-                    <div className='bg-whiteTextColor rounded-[20px]'>
+                    <div className='bg-whiteTextColor flex rounded-[20px]'>
                         <input 
                         type="text" 
                         placeholder='Search products...'
@@ -50,16 +53,23 @@ function NavbarMidComponent() {
 
                     <div>
                         <ul className='flex-center gap-4'>
-                            <li className='flex-center gap-2'>
+                            <li className='flex-center'>
                                 <div className='flex-center'>
                                     {navItems[0].icon}
                                 </div>
-                                <Link 
-                                to={'/'}
-                                className='text-whiteTextColor'
-                                >
-                                    {navItems[0].title}
-                                </Link>
+                                <SignedOut>
+                                    <SignInButton />
+                                </SignedOut>
+                                <SignedIn>
+                                    <UserButton showName={true} appearance={{
+                                        elements: {
+                                            avatarBox: 'w-[40px] h-[40px]'
+                                        },
+                                        variables: {
+                                            colorText: '#EDA415'
+                                        }
+                                    }} />
+                                </SignedIn>
                             </li>
                             <li className='flex-center gap-2'>
                                 <div className='flex-center'>

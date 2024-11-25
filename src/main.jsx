@@ -14,6 +14,19 @@ import SingleProductPage from './pages/SingleProductPage.jsx'
 import CartPage from './pages/CartPage.jsx'
 import ErrorPage from './pages/ErrorPage.jsx'
 
+// clerk
+import { ClerkProvider } from '@clerk/clerk-react'
+
+// key
+const PUBLISHABLE_KEY = import.meta.env.VITE_CLERK_PUBLISHABLE_KEY
+
+// redux
+import { Provider } from 'react-redux'
+import store from './store/store.js'
+
+if (!PUBLISHABLE_KEY) {
+  throw new Error("Missing Publishable Key")
+}
 
 const router = createBrowserRouter
 ([
@@ -43,7 +56,11 @@ const router = createBrowserRouter
 ])
 
 createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <RouterProvider router={router} />
+  <StrictMode> 
+    <Provider store={store}>
+      <ClerkProvider publishableKey={PUBLISHABLE_KEY} afterSignOutUrl="/">
+        <RouterProvider router={router} />
+      </ClerkProvider>
+    </Provider>
   </StrictMode>,
 )
